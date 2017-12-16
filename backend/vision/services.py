@@ -1,0 +1,2 @@
+class GoogleVisionService:
+    pass
