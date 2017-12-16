@@ -19,7 +19,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'b50^x*gp1b#0(a^umt8vbq70_pdzf7-4n)1_pj_^9p=7i&+ize'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'o_$thkj$jki@cn2^l=wo=$=a9pp2e&n-ez4+idf6occeht+(i&')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -114,5 +114,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-APP_TAG = 'hot dog'
-APP_TAG_MIN_SCORE = 0.6
+# App settings
+APP_TAG = os.environ.get('DJANGO_APP_TAG', 'hot dog')
+APP_TAG_MIN_SCORE = float(os.environ.get('DJANGO_APP_TAG_MIN_SCORE', 0.6))
+
+# CELERY
+CELERY_BROKER_URL = 'pyamqp://guest@localhost//'

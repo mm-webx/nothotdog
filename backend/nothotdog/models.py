@@ -13,11 +13,13 @@ class Picture(models.Model):
     COMPUTED_PENDING = 0
     COMPUTED_IN_PROGRESS = 1
     COMPUTED_COMPLETED = 2
+    COMPUTED_ERROR = 3
 
     COMPUTED_STATUSES = (
         (COMPUTED_PENDING, 'pending'),
         (COMPUTED_IN_PROGRESS, 'in progress'),
         (COMPUTED_COMPLETED, 'completed'),
+        (COMPUTED_COMPLETED, 'error'),
     )
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

@@ -35,17 +35,19 @@ class TestTags:
         assert error is True, 'Should return Integrity Error'
 
 
-class TestPicture:
+class TestPictureFixtures:
     @pytest.fixture
     def picture(self):
         user = User.objects.create_user('test_user')
-        test_file = os.path.join(settings.BASE_DIR, 'nothotdog', 'tests_resources/example.jpeg')
+        test_file = os.path.join(settings.BASE_DIR, 'nothotdog', 'tests', 'tests_resources', 'example.jpeg')
         with open(test_file, 'rb') as image_file:
             image = image_file.read()
         picture = Picture(image=File(image), author=user)
         picture.save()
         return picture
 
+
+class TestPicture(TestPictureFixtures):
     def test_picture(self, picture):
         assert picture.id is not None
 
