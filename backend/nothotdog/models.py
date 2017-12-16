@@ -4,6 +4,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
+from nothotdog.utils import path_and_rename
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=255, null=False, unique=True)
@@ -24,7 +26,7 @@ class Picture(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    image = models.ImageField(upload_to='uploads/%Y-%m-%d/')
+    image = models.ImageField(upload_to=path_and_rename, null=False)
     author = models.OneToOneField(User, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)

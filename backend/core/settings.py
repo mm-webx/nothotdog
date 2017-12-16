@@ -109,14 +109,24 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
-
-STATIC_URL = '/static/'
-
 # App settings
 APP_TAG = os.environ.get('DJANGO_APP_TAG', 'hot dog')
 APP_TAG_MIN_SCORE = float(os.environ.get('DJANGO_APP_TAG_MIN_SCORE', 0.6))
 
 # CELERY
 CELERY_BROKER_URL = 'pyamqp://guest@localhost//'
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.0/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+MEDIA_URL = '/media/'
+
+IMAGES_STORAGE = os.path.join(MEDIA_ROOT, 'images')
