@@ -25,5 +25,6 @@ DJANGO_APP_TAG_MIN_SCORE=0.65
 GOOGLE_APPLICATION_CREDENTIALS=PATH/app-0000.json
 ```
 - Run migrations `python manage.py migrate`
+- Run collect statics `python manage.py collectstatics`
 - Run celery `celery -A core.celery worker -l info`
 - Run server `python manage.py runserver`
