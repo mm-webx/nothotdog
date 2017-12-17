@@ -3,12 +3,13 @@ import uuid
 
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.files import File
 from django.db import models
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 
-from nothotdog.tasks import compute_picture
-from nothotdog.utils import path_and_rename
+from nothotdog.tasks import compute_picture, create_watermark_image
+from nothotdog.utils import path_and_rename, path_and_rename_watermark
 
 
 class Tag(models.Model):
@@ -36,6 +37,7 @@ class Picture(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     image = models.ImageField(upload_to=path_and_rename, null=False)
+    watermark_image = models.ImageField(upload_to=path_and_rename_watermark, null=True, blank=True, default=None)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -60,7 +62,7 @@ class Picture(models.Model):
         self.save()
         compute_picture.delay(self.id)
 
-    def calculate_is_hotdog(self):
+    def calculate_is_hotdog(self, create_watermark_image_file=True):
         tag = settings.APP_TAG
         min_score = settings.APP_TAG_MIN_SCORE
         tag_exists = self.tags.filter(name__icontains=tag, score__value__gte=min_score).exists()
@@ -69,6 +71,9 @@ class Picture(models.Model):
             self.is_hotdog = True
         else:
             self.is_hotdog = False
+
+        if create_watermark_image_file:
+            self.create_image_with_watermark()
 
         self.save()
 
@@ -85,7 +90,31 @@ class Picture(models.Model):
     def remove_image_file(self):
         path = self.image.path
         if os.path.isfile(path):
-            os.remove(self.image.path)
+            os.remove(path)
+
+    def remove_watermark_image_file(self):
+        if self.watermark_image:
+            path = self.watermark_image.path
+            if os.path.isfile(path):
+                os.remove(path)
+
+    def remove_files(self):
+        self.remove_watermark_image_file()
+        self.remove_image_file()
+
+    def get_watermark_image(self):
+        if not self.watermark_image:
+            return self.image
+
+    def create_image_with_watermark(self):
+        create_watermark_image.delay(self.id)
+
+    def set_watermark_image(self, file_name):
+        if self.watermark_image:
+            self.remove_watermark_image_file()
+        image = File(open(file_name, 'rb'))
+        self.watermark_image = image
+        self.save()
 
 
 class Score(models.Model):
@@ -106,4 +135,4 @@ class Score(models.Model):
 @receiver(pre_delete, sender=Picture)
 def save_user_profile(sender, instance, **kwargs):
     # TODO: always can be do better
-    instance.remove_image_file()
+    instance.remove_files()

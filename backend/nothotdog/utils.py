@@ -19,3 +19,4 @@ class PathAndRename(object):
 
 
 path_and_rename = PathAndRename('images')
+path_and_rename_watermark = PathAndRename('watermark')

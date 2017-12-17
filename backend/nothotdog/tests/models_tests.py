@@ -7,6 +7,7 @@ from django.core.files import File
 from django.db import IntegrityError
 
 from nothotdog.models import Tag, Picture, Score
+from nothotdog.tasks import create_watermark_image
 
 pytestmark = pytest.mark.django_db
 
@@ -111,3 +112,40 @@ class TestPicture(TestPictureFixtures):
         assert picture.computed_status is Picture.COMPUTED_PENDING
 
         picture.remove_image_file()
+
+    def test_remove_files(self, picture):
+        picture_id = picture.id
+        create_watermark_image(picture_id)
+
+        get_picture = Picture.objects.get(id=picture_id)
+
+        assert get_picture.watermark_image
+
+        image = get_picture.image.path
+        watermark_image = get_picture.watermark_image.path
+
+        assert os.path.isfile(image)
+        assert os.path.isfile(watermark_image)
+
+        get_picture.remove_files()
+
+        assert not os.path.isfile(image)
+        assert not os.path.isfile(watermark_image)
+
+    def test_get_watermark_image(self, picture):
+        assert picture.image
+        assert not picture.watermark_image
+
+        assert picture.get_watermark_image() == picture.image
+
+    def test_set_watermark_image(self, picture):
+        assert picture.image
+        assert not picture.watermark_image
+
+        picture_id = picture.id
+        create_watermark_image(picture_id)
+
+        get_picture = Picture.objects.get(id=picture_id)
+
+        assert get_picture.watermark_image
+        create_watermark_image(picture_id)
