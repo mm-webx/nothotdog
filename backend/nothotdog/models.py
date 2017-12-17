@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.files import File
 from django.db import models
-from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_delete, post_save
 from django.dispatch import receiver
 
 from nothotdog.tasks import compute_picture, create_watermark_image
@@ -50,12 +50,6 @@ class Picture(models.Model):
 
     def __str__(self):
         return str(self.id)
-
-    def save(self, *args, **kwargs):
-        super().save(*args, *kwargs)
-
-        if self.computed_status is None or self.computed_status == self.COMPUTED_FORCE:
-            self.compute()
 
     def compute(self):
         self.computed_status = self.COMPUTED_PENDING
@@ -135,6 +129,12 @@ class Score(models.Model):
 
 
 @receiver(pre_delete, sender=Picture)
-def save_user_profile(sender, instance, **kwargs):
+def pre_delete_picture(sender, instance, **kwargs):
     # TODO: always can be do better
     instance.remove_files()
+
+
+@receiver(post_save, sender=Picture)
+def post_save_picture(sender, instance, **kwargs):
+    if instance.computed_status is None or instance.computed_status == instance.COMPUTED_FORCE:
+        instance.compute()

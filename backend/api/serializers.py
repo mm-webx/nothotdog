@@ -25,26 +25,27 @@ class ScoreSerializer(serializers.ModelSerializer):
 
 
 class PictureSerializer(serializers.ModelSerializer):
-    author = UserSerializer()
+    id = serializers.UUIDField(read_only=True)
+    image = serializers.ImageField()
+    watermark_image = serializers.ImageField(read_only=True)
+    author_name = serializers.SerializerMethodField()
+    author = serializers.HiddenField(
+        default=serializers.CurrentUserDefault()
+    )
     tags = serializers.SerializerMethodField()
-    image_url = serializers.SerializerMethodField()
-    watermark_image_url = serializers.SerializerMethodField()
+    is_hotdog = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Picture
-        fields = ('id', 'author', 'image_url', 'watermark_image_url', 'tags', 'created_at')
-        depth = 1
+        fields = ('id', 'tags', 'created_at', 'author_name', 'image',
+                  'watermark_image', 'author', 'is_hotdog')
+        depth = 0
 
-    def get_image_url(self, picture):
-        request = self.context.get('request')
-        image_url = picture.image.url
-        return request.build_absolute_uri(image_url)
-
-    def get_watermark_image_url(self, picture):
-        request = self.context.get('request')
-        image_url = picture.get_watermark_image().url
-        return request.build_absolute_uri(image_url)
+    def get_author_name(self, picture):
+        author_name = '{} {} ({})'.format(picture.author.first_name, picture.author.last_name, picture.author.username)
+        return author_name
 
     def get_tags(self, obj):
         queryset = Score.objects.filter(picture=obj).order_by('-value')
         return [ScoreSerializer(i).data for i in queryset]
+
