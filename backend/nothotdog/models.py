@@ -40,6 +40,8 @@ class Picture(models.Model):
     watermark_image = models.ImageField(upload_to=path_and_rename_watermark, null=True, blank=True, default=None)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    desc = models.TextField(blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

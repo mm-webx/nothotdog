@@ -1,13 +1,12 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets
 
-from api.serializers import PictureSerializer, UserSerializer
+from api.serializers import PictureSerializer, UserSerializer, PictureSerializerUpdate
 from nothotdog.models import Picture
 
 
 class PictureViewSet(viewsets.ModelViewSet):
     queryset = Picture.objects.filter(computed_status=Picture.COMPUTED_COMPLETED, watermark_image__isnull=False)
-    serializer_class = PictureSerializer
     ordering = ('-created_at',)
 
     def get_queryset(self):
@@ -26,6 +25,14 @@ class PictureViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(tags__name__icontains=search)
 
         return queryset
+
+    def get_serializer_class(self):
+        if self.request.method == 'PUT':
+            serializer_class = PictureSerializerUpdate
+        else:
+            serializer_class = PictureSerializer
+
+        return serializer_class
 
 
 class UserViewSet(viewsets.ModelViewSet):
