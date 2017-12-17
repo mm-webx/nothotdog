@@ -106,6 +106,8 @@ class Picture(models.Model):
         if not self.watermark_image:
             return self.image
 
+        return self.watermark_image
+
     def create_image_with_watermark(self):
         create_watermark_image.delay(self.id)
 

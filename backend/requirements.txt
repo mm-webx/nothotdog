@@ -6,10 +6,12 @@ cachetools==2.0.1
 celery==3.1.25
 certifi==2017.11.5
 chardet==3.0.4
-Django==2.0
+Django==1.11
 django-appconf==1.0.2
 django-celery==3.2.2
+django-filter==1.1.0
 django-imagekit==4.0.2
+djangorestframework==3.7.3
 google-api-core==0.1.2
 google-auth==1.2.1
 google-cloud-core==0.28.0
@@ -20,6 +22,7 @@ googleapis-common-protos==1.5.3
 grpcio==1.8.1
 idna==2.6
 kombu==3.0.37
+Markdown==2.6.10
 olefile==0.44
 pilkit==2.0
 Pillow==4.3.0

@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'imagekit',
     'vision',
     'nothotdog',
+    'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -117,3 +119,12 @@ STATICFILES_DIRS = (
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 MEDIA_URL = '/media/'
+
+# RESTFRAMEWORK
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
