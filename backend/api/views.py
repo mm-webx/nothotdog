@@ -1,8 +1,7 @@
-from django.contrib.auth.models import User
 from rest_framework import viewsets
 
-from api.serializers import PictureSerializer, UserSerializer, PictureSerializerUpdate
-from nothotdog.models import Picture
+from api.serializers import PictureSerializer, PictureSerializerUpdate, TagSerializer
+from nothotdog.models import Picture, Tag
 
 
 class PictureViewSet(viewsets.ModelViewSet):
@@ -35,6 +34,6 @@ class PictureViewSet(viewsets.ModelViewSet):
         return serializer_class
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all().order_by('name')
+    serializer_class = TagSerializer

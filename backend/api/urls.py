@@ -1,11 +1,11 @@
 from django.conf.urls import include, url
 from rest_framework import routers
 
-from api.views import PictureViewSet, UserViewSet
+from api.views import PictureViewSet, TagViewSet
 
 router = routers.DefaultRouter()
 router.register(r'pictures', PictureViewSet)
-router.register(r'users', UserViewSet)
+router.register(r'tags', TagViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
