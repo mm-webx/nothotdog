@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
+from nothotdog.tasks import compute_picture
 from nothotdog.utils import path_and_rename
 
 
@@ -46,7 +47,7 @@ class Picture(models.Model):
     def compute(self):
         self.computed_status = self.COMPUTED_PENDING
         self.save()
-        # TODO: start task
+        compute_picture.delay(self.id)
 
     def calculate_is_hotdog(self):
         tag = settings.APP_TAG

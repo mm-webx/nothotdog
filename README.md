@@ -5,6 +5,9 @@
 - Python: 3.5+
 - RabbitMQ
 
+###Tests:
+- Run `pytest`
+
 ###Installation:
 - Install rabbit server `$ sudo apt-get install rabbitmq-server`
 - Create virtualenv with required python version

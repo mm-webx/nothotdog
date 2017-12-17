@@ -40,10 +40,10 @@ class TestPictureFixtures:
     def picture(self):
         user = User.objects.create_user('test_user')
         test_file = os.path.join(settings.BASE_DIR, 'nothotdog', 'tests', 'tests_resources', 'example.jpeg')
-        with open(test_file, 'rb') as image_file:
-            image = image_file.read()
-        picture = Picture(image=File(image), author=user)
+        image = File(open(test_file, 'rb'))
+        picture = Picture(image=image, author=user)
         picture.save()
+
         return picture
 
 
@@ -86,3 +86,20 @@ class TestPicture(TestPictureFixtures):
         assert get_picture.is_hotdog is False
 
         assert get_picture.tags.count() == 0
+
+    def test_save_change_status(self, monkeypatch):
+        def compute_picture(*args, **kwargs):
+            pass
+
+        from nothotdog import tasks
+        monkeypatch.setattr(tasks, 'compute_picture', compute_picture)
+
+        user = User.objects.create_user('test_user')
+        test_file = os.path.join(settings.BASE_DIR, 'nothotdog', 'tests', 'tests_resources', 'example.jpeg')
+        image = File(open(test_file, 'rb'))
+        picture = Picture(image=image, author=user)
+
+        assert picture.computed_status is None
+        picture.save()
+        # also test compute()
+        assert picture.computed_status is Picture.COMPUTED_PENDING

@@ -4,6 +4,7 @@ from core.celery import celery_app
 @celery_app.task
 def compute_picture(picture_id):
     from nothotdog.models import Picture
+    from vision.services import GoogleVisionService
 
     try:
         picture = Picture.objects.get(id=picture_id)
@@ -14,16 +15,15 @@ def compute_picture(picture_id):
     picture.save()
 
     try:
-        pass
+        gvs = GoogleVisionService(file_name=picture.image.file.name)
+        labels = gvs.label_detection()
     except Exception as e:
         # TODO: add logger
         print('Picture #{} error: {}'.format(picture_id, e))
         picture.computed_status = Picture.COMPUTED_ERROR
     else:
-        # TODO: add google vision support
-        labels_from_google_api = ['Hot Dog']
-        for label in labels_from_google_api:
-            picture.add_tag(label, 0.9)
+        for label in labels:
+            picture.add_tag(label.description, label.score)
 
         picture.computed_status = Picture.COMPUTED_COMPLETED
     finally:

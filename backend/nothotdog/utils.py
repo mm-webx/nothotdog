@@ -1,7 +1,6 @@
 import os
 from uuid import uuid4
 
-from django.conf import settings
 from django.utils.deconstruct import deconstructible
 
 
@@ -19,4 +18,4 @@ class PathAndRename(object):
         return os.path.join(self.path, filename)
 
 
-path_and_rename = PathAndRename(settings.IMAGES_STORAGE)
+path_and_rename = PathAndRename('images')
