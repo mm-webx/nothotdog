@@ -19,7 +19,16 @@ class TestLabel:
 
 
 class TestService:
-    def test_prepare_image(self):
+    def test_prepare_image(self, monkeypatch):
+        class ImageAnnotatorClient(object):
+            def __init__(self):
+                pass
+
+            def label_detection(*args, **kwargs):
+                pass
+
+        monkeypatch.setattr(vision, 'ImageAnnotatorClient', ImageAnnotatorClient)
+
         gvs = GoogleVisionService()
         gvs.file_name = os.path.join(settings.BASE_DIR, 'nothotdog', 'tests', 'tests_resources', 'example.jpeg')
         image = gvs._prepare_image()

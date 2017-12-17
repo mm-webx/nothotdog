@@ -25,6 +25,7 @@ def compute_picture(picture_id):
         for label in labels:
             picture.add_tag(label.description, label.score)
 
+        picture.calculate_is_hotdog()
         picture.computed_status = Picture.COMPUTED_COMPLETED
     finally:
         picture.save()

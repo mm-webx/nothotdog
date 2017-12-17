@@ -43,13 +43,19 @@ class TestPictureFixtures:
         image = File(open(test_file, 'rb'))
         picture = Picture(image=image, author=user)
         picture.save()
-
-        return picture
+        yield picture
+        picture.remove_image_file()
 
 
 class TestPicture(TestPictureFixtures):
     def test_picture(self, picture):
         assert picture.id is not None
+
+    def test_remove_image_file(self, picture):
+        path = picture.image.path
+        assert os.path.isfile(path)
+        picture.remove_image_file()
+        assert not os.path.isfile(path)
 
     def test_add_tag(self, picture):
         tag_name = 'Hot Dog'
@@ -99,7 +105,9 @@ class TestPicture(TestPictureFixtures):
         image = File(open(test_file, 'rb'))
         picture = Picture(image=image, author=user)
 
-        assert picture.computed_status is None
+        assert picture.computed_status is Picture.COMPUTED_FORCE
         picture.save()
         # also test compute()
         assert picture.computed_status is Picture.COMPUTED_PENDING
+
+        picture.remove_image_file()
