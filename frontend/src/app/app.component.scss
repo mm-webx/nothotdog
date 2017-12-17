@@ -1,0 +1,26 @@
+.app-container {
+  position: absolute;
+
+}
+
+.app-toolbar {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #990935;
+  color: #fff;
+
+  button {
+    text-transform: uppercase;
+  }
+}
+
+.app-container {
+  position: absolute;
+  top: 64px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

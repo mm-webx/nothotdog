@@ -1,5 +1,16 @@
-<mat-toolbar>
+<mat-toolbar class="app-toolbar">
   <mat-toolbar-row>
-    <span>NotHotdog</span>
+    <button mat-button routerLink="/" routerLinkActive="active">
+      <mat-icon>&#xE80E;</mat-icon>
+      NotHotdog!
+    </button>
+    <span flex></span>
+    <button mat-button routerLink="/" routerLinkActive="active">
+      <mat-icon>&#xE145;</mat-icon>
+      <span class="text">Add</span>
+    </button>
   </mat-toolbar-row>
 </mat-toolbar>
+<div class="app-container">
+  <router-outlet></router-outlet>
+</div>
