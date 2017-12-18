@@ -1,0 +1,38 @@
+<div class="box">
+  <form class="card" (submit)="registerUser($event)">
+    <mat-card>
+      <mat-card-title>Sign up</mat-card-title>
+      <mat-card-content>
+        <mat-form-field style="width:100%">
+          <input matInput type="text" [(ngModel)]="_apiService.user.firstName" [ngModelOptions]="{standalone: true}"
+                 required placeholder="First name">
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-content>
+        <mat-form-field style="width:100%">
+          <input matInput type="text" [(ngModel)]="_apiService.user.lastName" [ngModelOptions]="{standalone: true}"
+                 required placeholder="Last name">
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-content>
+        <mat-form-field style="width:100%">
+          <input matInput type="text" [(ngModel)]="_apiService.user.username" [ngModelOptions]="{standalone: true}"
+                 required placeholder="Username">
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-content>
+        <mat-form-field style="width:100%">
+          <input matInput type="text" [(ngModel)]="_apiService.user.password" [ngModelOptions]="{standalone: true}"
+                 type="password" required placeholder="Password" minlength="6">
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button style="width: 100%" color="primary" (click)="registerUser($event)">Sign up</button>
+      </mat-card-actions>
+      <mat-card-footer class="footer">
+        Don't have an account? <a routerLink="/login" routerLinkActive="active">Sign in</a>
+      </mat-card-footer>
+    </mat-card>
+    <input type="submit" style="display: none;">
+  </form>
+</div>

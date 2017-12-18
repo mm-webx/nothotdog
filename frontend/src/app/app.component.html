@@ -1,16 +1,38 @@
-<mat-toolbar class="app-toolbar">
+<mat-toolbar class="app-toolbar" *ngIf="!_apiService.uploading">
   <mat-toolbar-row>
-    <button mat-button routerLink="/" routerLinkActive="active">
+    <button mat-button routerLink="/home" routerLinkActive="active">
       <mat-icon>&#xE80E;</mat-icon>
       NotHotdog!
     </button>
-    <span flex></span>
-    <button mat-button routerLink="/" routerLinkActive="active">
-      <mat-icon>&#xE145;</mat-icon>
-      <span class="text">Add</span>
+    <button mat-button routerLink="/hotdogs" routerLinkActive="active">
+      <mat-icon>&#xE2C8;</mat-icon>
+      <span class="text">Browse</span>
+    </button>
+    <button mat-button (click)="file.click()" *ngIf="_apiService.isLoggedIn" [disabled]="_apiService.uploading">
+      <mat-icon>&#xE2C6;</mat-icon>
+      <span class="text">Upload</span>
+    </button>
+    <span class="fill"></span>
+    <button mat-raised-button *ngIf="!_apiService.isLoggedIn" class="sign-in" routerLink="/login"
+            routerLinkActive="active">
+      <mat-icon>&#xE853;</mat-icon>
+      <span class="text">Sign in</span>
+    </button>
+    <button mat-raised-button *ngIf="_apiService.isLoggedIn" class="sign-in" (click)="logOut()">
+      <mat-icon>&#xE879;</mat-icon>
+      <span class="text">Log out</span>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
-<div class="app-container">
+<div class="uploader" *ngIf="_apiService.uploading"
+     [style.backgroundImage]="'url('+ _apiService.picture.image +')'">
+  <div class="info-box" *ngIf="!showResultView">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+</div>
+<div class="app-container" *ngIf="!_apiService.uploading">
   <router-outlet></router-outlet>
+</div>
+<div style="display: none">
+  <input type="file" #file id="filePicker" (change)="handleFileSelect($event)" accept="image/*">
 </div>

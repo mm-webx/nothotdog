@@ -1,3 +1,45 @@
-<p>
-  hot-dog-list works!
-</p>
+<div class="box">
+  <div class="picture">
+    <h1>{{title}}</h1>
+    <p class="loader-bg" *ngIf="loading">
+      Loading... HOTDOGs and NOTHOTDOGs...
+    </p>
+  </div>
+
+
+  <mat-card *ngFor="let picture of pictures" class="picture">
+    <img mat-card-image [src]="picture.watermark_image" (click)="goPicture(picture)" class="pointer">
+    <mat-card-title (click)="goPicture(picture)" class="pointer">
+      <span *ngIf="picture.is_hotdog">HOTDOG!</span>
+      <span *ngIf="!picture.is_hotdog">NOTHOTDOG!</span>
+    </mat-card-title>
+    <mat-card-subtitle>
+      {{picture.created_at | date:'medium'}}
+      by
+      <span class="user">
+        {{picture.user.firstName }}
+        {{picture.user.lastName}}
+        @{{picture.user.username}}
+      </span>
+    </mat-card-subtitle>
+    <mat-card-content>{{picture.desc}}</mat-card-content>
+    <mat-card-content>
+      <mat-chip-list>
+        <mat-chip *ngFor="let tag of picture.tags" color="primary" class="chip"
+                  [ngClass]="{'chip-gold': tag.value>0.80}"
+                  (click)="goTag(tag)">
+          {{tag.name}} ({{tag.value*100 | number:'1.0-0'}}%)
+        </mat-chip>
+      </mat-chip-list>
+    </mat-card-content>
+    <mat-card-footer *ngIf="picture.owned" class="owned">
+      <p>
+        This is yours
+        <span *ngIf="picture.is_hotdog">HOTDOG!</span>
+        <span *ngIf="!picture.is_hotdog">NOTHOTDOG!</span>
+      </p>
+    </mat-card-footer>
+  </mat-card>
+
+  <div *ngIf="!pictures.length && !loading">No hotdog :( pleaseeee upload HOTDOG or NOTHOTDOG....</div>
+</div>

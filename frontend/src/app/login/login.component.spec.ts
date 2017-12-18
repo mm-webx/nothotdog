@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {HotDogAddComponent} from './hot-dog-add.component';
+import {LoginComponent} from './login.component';
 
-describe('HotDogAddComponent', () => {
-  let component: HotDogAddComponent;
-  let fixture: ComponentFixture<HotDogAddComponent>;
+describe('LoginComponent', () => {
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HotDogAddComponent]
+      declarations: [LoginComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HotDogAddComponent);
+    fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

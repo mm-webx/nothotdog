@@ -7,17 +7,26 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MaterialModule} from "./material.config";
 import {RouterModule, Routes} from "@angular/router";
 import {NotFoundComponent} from './not-found/not-found.component';
-import {HotDogAddComponent} from './hot-dog-add/hot-dog-add.component';
 import {HotDogDetailsComponent} from './hot-dog-details/hot-dog-details.component';
 import {HotDogListComponent} from './hot-dog-list/hot-dog-list.component';
 import {HotDogHomeComponent} from './hot-dog-home/hot-dog-home.component';
-import {HotDogAboutComponent} from './hot-dog-about/hot-dog-about.component';
+import {CookieModule} from "ngx-cookie";
+import {HttpClientModule} from '@angular/common/http';
+import {ApiService} from "./api.service";
+import {LoginComponent} from './login/login.component';
+import {RegisterComponent} from './register/register.component';
+import {BaseComponent} from './base/base.component';
+import {FormsModule} from "@angular/forms";
+import {SocketService} from "./socket.service";
+import {WebSocketService} from "angular2-websocket-service";
+import {HotDogResultComponent} from './hot-dog-result/hot-dog-result.component';
 
 const appRoutes: Routes = [
   {path: 'home', component: HotDogHomeComponent},
-  {path: 'about', component: HotDogAboutComponent},
-  {path: 'add', component: HotDogAddComponent},
-  {path: 'hotdog/:id', component: HotDogDetailsComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'register', component: RegisterComponent},
+  {path: 'result', component: HotDogResultComponent},
+  {path: 'hotdog', component: HotDogDetailsComponent},
   {
     path: 'hotdogs',
     component: HotDogListComponent,
@@ -34,22 +43,30 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     NotFoundComponent,
-    HotDogAddComponent,
     HotDogDetailsComponent,
     HotDogListComponent,
     HotDogHomeComponent,
-    HotDogAboutComponent
+    LoginComponent,
+    RegisterComponent,
+    BaseComponent,
+    HotDogResultComponent
   ],
   imports: [
     RouterModule.forRoot(
-      appRoutes,
-      {enableTracing: true} // debug only
+      appRoutes
     ),
     BrowserModule,
+    HttpClientModule,
     MaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CookieModule.forRoot(),
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    ApiService,
+    SocketService,
+    WebSocketService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

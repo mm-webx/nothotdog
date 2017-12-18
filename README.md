@@ -3,13 +3,14 @@
 ##Backend
 ###Requirements:
 - Python: 3.5+
-- RabbitMQ
+- RabbitMQ (celery)
+- Redis (django-channels)
 
 ###Tests:
 - Run `pytest`
 
 ###Installation:
-- Install rabbit server `$ sudo apt-get install rabbitmq-server`
+- Install rabbit & redis servers `$ sudo apt-get install rabbitmq-server redis-server`
 - Create virtualenv with required python version
 - Activate virtualenv `source env/bin/activate`
 - Install requirements `pip install -r requirements.txt`

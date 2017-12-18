@@ -1,0 +1,22 @@
+<div class="uploader" [style.backgroundImage]="'url('+ _apiService.picture.image +')'">
+  <div class="info-box result"
+       [ngClass]="{'hot': _apiService.picture.is_hotdog}">
+    <div>
+      <div class="logo">
+        <mat-icon class="icon">&#xE80E;</mat-icon>
+        <div class="name" *ngIf="!_apiService.picture.is_hotdog">Not Hotdog!</div>
+        <div class="name" *ngIf="_apiService.picture.is_hotdog">Hotdog!</div>
+      </div>
+      <button mat-raised-button color="primary" (click)="endUpload()" style="width: 300px"
+              *ngIf="_apiService.loading">
+        Cancel
+      </button>
+      <button mat-raised-button color="primary" (click)="goPicture(_apiService.picture)" style="width: 300px"
+              *ngIf="!_apiService.loading">
+        Go to
+        <span *ngIf="!_apiService.picture.is_hotdog">Not Hotdog!</span>
+        <span *ngIf="_apiService.picture.is_hotdog">Hotdog!</span>
+      </button>
+    </div>
+  </div>
+</div>
