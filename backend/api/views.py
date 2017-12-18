@@ -8,12 +8,11 @@ from nothotdog.models import Picture, Tag
 
 
 class PictureViewSet(viewsets.ModelViewSet):
-    queryset = Picture.objects.filter(computed_status=Picture.COMPUTED_COMPLETED,
-                                      watermark_image__isnull=False).order_by('-created_at')
     permissions = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    queryset = Picture.objects.filter(watermark_image__isnull=False).order_by('-created_at')
 
     def get_queryset(self):
-        queryset = Picture.objects.filter(computed_status=Picture.COMPUTED_COMPLETED, watermark_image__isnull=False)
+        queryset = Picture.objects.filter(watermark_image__isnull=False)
 
         is_hotdog = self.request.query_params.get('is_hotdog', None)
         if is_hotdog is not None:
