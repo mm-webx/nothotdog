@@ -65,6 +65,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=PATH/app-0000.json
 ### Desc:
 - Create account via app or admin panel
 - Add photos of nothotdog or hotdogs, hotdogs have an APPROVED watermark, not hotdogs have REJECTED watermark
+- Click on TAG to filter pictures
 - Go to details to remove picture
 - Go to details to edit description
 
