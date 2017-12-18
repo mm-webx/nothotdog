@@ -130,6 +130,8 @@ export class ApiService {
         this._cookieService.put('user-token', this.user.token);
         this.isLoggedIn = true;
         this.user.password = null;
+        this.user = new User;
+        this.logout();
         return this.user;
       }),
       catchError(catchError(this.handleError()))
@@ -142,7 +144,6 @@ export class ApiService {
         if (err.status === 401) {
           this.logout(true);
         }
-        console.log(`status: ${err.status}, ${err.statusText}`);
       }
       return Observable.throw('error');
     }
