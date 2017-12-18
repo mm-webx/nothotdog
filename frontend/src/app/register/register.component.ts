@@ -17,13 +17,13 @@ export class RegisterComponent extends BaseComponent implements OnInit {
   registerUser($event: Event) {
     this._apiService.registerUser().subscribe(
       user => {
-        this.router.navigate(['/hotdogs']);
-
+        this.showSuccess('Account created, please log in!', 'OK');
+        this.router.navigate(['/login']);
       },
       err => {
-        this.showError('Failed, try again!', 'OK')
+        this.showError('User exists or bad data', 'OK')
       }
-    )
+    );
     event.preventDefault();
   }
 }

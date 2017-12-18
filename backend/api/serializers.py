@@ -57,6 +57,10 @@ class Base64ImageField(serializers.ImageField):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    first_name = serializers.CharField(min_length=5)
+    last_name = serializers.CharField(min_length=5)
+    username = serializers.CharField(min_length=5)
+    password = serializers.CharField(min_length=8)
     class Meta:
         model = User
         fields = ('username', 'password', 'first_name', 'last_name')
@@ -72,6 +76,7 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
         user.set_password(validated_data['password'])
+        user.is_active = True
         user.save()
 
         return user

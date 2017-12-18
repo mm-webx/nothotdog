@@ -20,7 +20,6 @@ export class SocketService {
     if (this.outputStream) {
       return this.outputStream;
     }
-    console.log(environment.socketUrl);
     // Using share() causes a single websocket to be created when the first
     // observer subscribes. This socket is shared with subsequent observers
     // and closed when the observer count falls to zero.
@@ -35,7 +34,6 @@ export class SocketService {
     // that messages are queued and delivered when the websocket reconnects.
     // A regular Subject can be used to discard messages sent when the websocket
     // is disconnected.
-    console.log('chce', message);
     this.inputStream.next(message)
   }
 

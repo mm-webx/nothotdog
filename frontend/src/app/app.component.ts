@@ -61,7 +61,6 @@ export class AppComponent extends BaseComponent implements OnInit {
   handleSocketMessage(message) {
     let action = message['action'];
     let data = message['data'];
-    console.warn(action, data);
 
     if (action === 'compute') {
       let isHotdog: boolean = data['is_hotdog'];
