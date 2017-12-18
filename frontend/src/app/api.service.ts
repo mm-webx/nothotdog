@@ -141,7 +141,7 @@ export class ApiService {
   private handleError() {
     return (err: any) => {
       if (err instanceof HttpErrorResponse) {
-        if (err.status === 401) {
+        if (err.status !== 200) {
           this.logout(true);
         }
       }

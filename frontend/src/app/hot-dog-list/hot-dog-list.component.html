@@ -1,5 +1,5 @@
 <div class="box">
-  <div class="picture">
+  <div class="picture center">
     <h1>{{title}}</h1>
     <p class="loader-bg" *ngIf="loading">
       Loading... HOTDOGs and NOTHOTDOGs...
@@ -41,5 +41,5 @@
     </mat-card-footer>
   </mat-card>
 
-  <div *ngIf="!pictures.length && !loading">No hotdog :( pleaseeee upload HOTDOG or NOTHOTDOG....</div>
+  <div *ngIf="!pictures.length && !loading" class="center">No hotdog :( pleaseeee upload HOTDOG or NOTHOTDOG....</div>
 </div>
