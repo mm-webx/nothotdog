@@ -156,3 +156,9 @@ CHANNEL_LAYERS = {
         'ROUTING': 'websocket.routing.channel_routing',
     },
 }
+
+# GOOGLEAPI
+google_api_key = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS', None)
+print('GOOGLE_APPLICATION_CREDENTIALS:', google_api_key)
+if google_api_key is None:
+    raise ValueError('GOOGLE_APPLICATION_CREDENTIALS missing in env!')

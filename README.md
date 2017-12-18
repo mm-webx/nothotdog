@@ -17,7 +17,7 @@
 - Set environments variables:
 ```
 # SECURITY WARNING: keep the secret key used in production secret!
-export DJANGO_SECRET_KEY=o_$thkj$jki@cn2^l=wo=$=a9pp2e&n-ez4+idf6occeht+(i&
+export DJANGO_SECRET_KEY="o_$thkj$jki@cn2^l=wo=$=a9pp2e&n-ez4+idf6occeht+(i&"
 
 # Google service account file
 # https://cloud.google.com/docs/authentication/getting-started#auth-cloud-implicit-python
@@ -57,7 +57,7 @@ export GOOGLE_APPLICATION_CREDENTIALS=PATH/app-0000.json
 - Go to details to remove picture
 - Go to details to edit description
 
-
+*BE SURE THAT YOU EXPORT PATH TO GOOGLE API KEY TO ALL INSTANCES (SERVER AND CELERY)*
 
 
 Have a nice day!
