@@ -1,15 +1,15 @@
-#NotHotdog
+# NotHotdog
 
-##Backend
-###Requirements:
+## Backend
+### Requirements:
 - Python: 3.5+
 - RabbitMQ (celery)
 - Redis (django-channels)
 
-###Tests:
+### Tests:
 - Run `pytest`
 
-###Installation:
+### Installation:
 - Install rabbit & redis servers `$ sudo apt-get install rabbitmq-server redis-server`
 - Create virtualenv with required python version
 - Activate virtualenv `source env/bin/activate`
@@ -29,34 +29,34 @@ DJANGO_APP_TAG_MIN_SCORE=0.65
 GOOGLE_APPLICATION_CREDENTIALS=PATH/app-0000.json
 ```
 
-###Run:
+### Run:
 - Run migrations `python manage.py migrate`
 - Run collect statics `python manage.py collectstatics`
 - Run celery `celery -A core.celery worker -l info`
 - Run server `python manage.py runserver`
 
-###Desc:
+### Desc:
 `http://127.0.0.1/admin` - admin panel
 `http://127.0.0.1/api` - browsable API 
 
-##Frontend:
+## Frontend:
 
-###Requirements:
+### Requirements:
 - npm 5.6.0
 - node 9.3.0
 
-###Tests:
+### Tests:
 - None
 
-###Installation:
+### Installation:
 - Install `nodejs` with `npm` globally
 - Run `npm install`
 - Check environment for `apiUrl` and `socketUrl` settings
 
-###Run:
+### Run:
 - Dev server `npm start -o`, should open `http://127.0.0.1:4200`
 
-###Desc:
+### Desc:
 - Create account via app or admin panel
 - Add photos of nothotdog or hotdogs, hotdogs have an APPROVE watermark, not hotdogs have DEINED watermark
 - Go to details to remove picture
