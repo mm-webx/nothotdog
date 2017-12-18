@@ -9,9 +9,12 @@ chardet==3.0.4
 Django==1.11
 django-appconf==1.0.2
 django-celery==3.2.2
+django-channels==0.7.0
+django-cors-headers==2.1.0
 django-filter==1.1.0
 django-imagekit==4.0.2
 djangorestframework==3.7.3
+djangorestframework-jwt==1.11.0
 google-api-core==0.1.2
 google-auth==1.2.1
 google-cloud-core==0.28.0
@@ -23,6 +26,7 @@ grpcio==1.8.1
 idna==2.6
 kombu==3.0.37
 Markdown==2.6.10
+oauthlib==2.0.6
 olefile==0.44
 pilkit==2.0
 Pillow==4.3.0
@@ -31,10 +35,12 @@ protobuf==3.5.0.post1
 py==1.5.2
 pyasn1==0.4.2
 pyasn1-modules==0.2.1
+PyJWT==1.5.3
 pytest==3.3.1
 pytest-django==3.1.2
 pytz==2017.3
 requests==2.18.4
+requests-oauthlib==0.8.0
 rsa==3.4.2
 six==1.11.0
 urllib3==1.22

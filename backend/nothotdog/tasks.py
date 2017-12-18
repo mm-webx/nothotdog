@@ -3,6 +3,7 @@ import os
 from PIL import Image
 
 from core.celery import celery_app
+from websocket.sender import WebSocketSender
 
 
 @celery_app.task
@@ -33,7 +34,13 @@ def compute_picture(picture_id):
         picture.computed_status = Picture.COMPUTED_COMPLETED
     finally:
         picture.save()
-        # TODO: add socket message about new status
+
+        wss = WebSocketSender('feed')
+        wss.send('compute', {
+            'id': picture.id,
+            'is_hotdog': picture.is_hotdog,
+            'compute': picture.computed_status == Picture.COMPUTED_COMPLETED
+        })
 
     return True
 
@@ -66,6 +73,9 @@ def create_watermark_image(picture_id):
     image.save(tmp_file_path)
 
     picture.set_watermark_image(tmp_file_path)
+
+    wss = WebSocketSender('feed')
+    wss.send('new-picture', {'id': picture.id})
 
     if os.path.isfile(tmp_file_path):
         os.remove(tmp_file_path)

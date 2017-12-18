@@ -1,12 +1,16 @@
-from rest_framework import viewsets
+from django.contrib.auth.models import User
+from rest_framework import viewsets, permissions
 
-from api.serializers import PictureSerializer, PictureSerializerUpdate, TagSerializer
+from api.permissions import IsOwnerOrReadOnly
+from api.serializers import PictureSerializer, PictureSerializerUpdate, TagSerializer, UserSerializer, \
+    UserSerializerPicture
 from nothotdog.models import Picture, Tag
 
 
 class PictureViewSet(viewsets.ModelViewSet):
-    queryset = Picture.objects.filter(computed_status=Picture.COMPUTED_COMPLETED, watermark_image__isnull=False)
-    ordering = ('-created_at',)
+    queryset = Picture.objects.filter(computed_status=Picture.COMPUTED_COMPLETED,
+                                      watermark_image__isnull=False).order_by('-created_at')
+    permissions = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     def get_queryset(self):
         queryset = Picture.objects.filter(computed_status=Picture.COMPUTED_COMPLETED, watermark_image__isnull=False)
@@ -23,6 +27,8 @@ class PictureViewSet(viewsets.ModelViewSet):
         if search is not None:
             queryset = queryset.filter(tags__name__icontains=search)
 
+        queryset = queryset.order_by('-created_at').prefetch_related('author', 'score_set', 'tags')
+
         return queryset
 
     def get_serializer_class(self):
@@ -37,3 +43,17 @@ class PictureViewSet(viewsets.ModelViewSet):
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all().order_by('name')
     serializer_class = TagSerializer
+    permissions = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.none()
+    permissions = [permissions.AllowAny]
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            serializer_class = UserSerializerPicture
+        else:
+            serializer_class = UserSerializer
+
+        return serializer_class
