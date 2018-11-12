@@ -122,6 +122,7 @@ class Score(models.Model):
     value = models.FloatField('Score', default=0)
 
     def __str__(self):
+        hehehehe
         return '{}-{}'.format(self.picture_id, self.tag.name)
 
     class Meta:
