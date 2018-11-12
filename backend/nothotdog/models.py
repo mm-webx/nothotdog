@@ -54,6 +54,7 @@ class Picture(models.Model):
         return str(self.id)
 
     def compute(self):
+        lasdiojkasd;
         self.computed_status = self.COMPUTED_PENDING
         self.save()
         compute_picture.delay(self.id)
