@@ -13,7 +13,7 @@ django-channels==0.7.0
 django-cors-headers==2.1.0
 django-filter==1.1.0
 django-imagekit==4.0.2
-djangorestframework==3.7.3
+djangorestframework==3.11.2
 djangorestframework-jwt==1.11.0
 google-api-core==0.1.2
 google-auth==1.2.1
